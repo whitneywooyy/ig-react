@@ -23639,7 +23639,6 @@
 		mixins: [Router.State],
 		getInitialState: function getInitialState() {
 			return {
-				places: ["Paris", "Utah", "NYC"],
 				username: "whitn_y",
 				placeName: "tour-eiffel",
 				placeFSId: "1k24h2l3kj42",
@@ -23663,7 +23662,13 @@
 				'A Place Foursquare ID: ',
 				this.state.placeFSId,
 				React.createElement('hr', null),
-				React.createElement(Place, { placeName: this.state.placeName, placeIGId: this.state.placeIGId, dateTaken: this.state.dateTaken })
+				React.createElement(Place, {
+					username: this.state.username,
+					placeName: this.state.placeName,
+					placeFSId: this.state.placeFSId,
+					placeIGId: this.state.placeIGId,
+					dateTaken: this.state.dateTaken
+				})
 			);
 		}
 	});
@@ -23681,6 +23686,13 @@
 	var Place = React.createClass({
 		displayName: 'Place',
 
+		propTypes: {
+			username: React.PropTypes.string.isRequired,
+			placeName: React.PropTypes.string.isRequired,
+			placeFSId: React.PropTypes.string.isRequired,
+			placeIGId: React.PropTypes.string.isRequired,
+			dateTaken: React.PropTypes.string.isRequired
+		},
 		render: function render() {
 			return React.createElement(
 				'div',

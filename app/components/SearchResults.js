@@ -7,7 +7,6 @@ var SearchResults = React.createClass({
 	mixins: [Router.State],
 	getInitialState: function(){
 		return {
-			places: ["Paris", "Utah", "NYC"],
 			username: "whitn_y",
 			placeName: "tour-eiffel",
 			placeFSId: "1k24h2l3kj42",
@@ -23,7 +22,13 @@ var SearchResults = React.createClass({
 				A Place Name: {this.state.placeName} <br />
 				A Place Foursquare ID: {this.state.placeFSId}
 				<hr />
-				<Place placeName={this.state.placeName} placeIGId={this.state.placeIGId} dateTaken={this.state.dateTaken} />
+				<Place 
+					username={this.state.username}
+					placeName={this.state.placeName} 
+					placeFSId={this.state.placeFSId}
+					placeIGId={this.state.placeIGId} 
+					dateTaken={this.state.dateTaken} 
+				/>
 			</div>
 		)
 	}

@@ -1,6 +1,13 @@
 var React = require('react');
 
 var Place = React.createClass({
+	propTypes: {
+		username: React.PropTypes.string.isRequired,
+		placeName: React.PropTypes.string.isRequired,
+		placeFSId: React.PropTypes.string.isRequired,
+		placeIGId: React.PropTypes.string.isRequired,
+		dateTaken: React.PropTypes.string.isRequired
+	},
 	render: function(){
 		return (
 			<div><hr />(This is an individual) PLACE! <br />
