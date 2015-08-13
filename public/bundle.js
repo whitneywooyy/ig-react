@@ -23550,7 +23550,7 @@
 	var Main = __webpack_require__(197);
 	var Home = __webpack_require__(198);
 	var SearchResults = __webpack_require__(199);
-	var Place = __webpack_require__(201);
+	var Place = __webpack_require__(200);
 	var Router = __webpack_require__(157);
 	var DefaultRoute = Router.DefaultRoute;
 	var Route = Router.Route;
@@ -23562,7 +23562,7 @@
 		React.createElement(DefaultRoute, { handler: Home })
 	);
 
-	//<Route name="place" path="/results/:placeId" handler={Place} />
+	// Line 13: <Route name="place" path="/results/:placeId" handler={Place} />
 
 /***/ },
 /* 197 */
@@ -23630,7 +23630,8 @@
 
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(157);
-	var Place = __webpack_require__(201);
+	//var RouteHandler = require('react-router').RouteHandler;
+	var Place = __webpack_require__(200);
 
 	var SearchResults = React.createClass({
 		displayName: 'SearchResults',
@@ -23638,16 +23639,31 @@
 		mixins: [Router.State],
 		getInitialState: function getInitialState() {
 			return {
-				places: ["Paris", "Utah", "NYC"]
+				places: ["Paris", "Utah", "NYC"],
+				username: "whitn_y",
+				placeName: "tour-eiffel",
+				placeFSId: "1k24h2l3kj42",
+				placeIGId: "87j5kh45",
+				dateTaken: "Aug-21-2015"
 			};
 		},
 		render: function render() {
 			var placeName = this.getParams().placeName;
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'row' },
 				'Search Results: ',
-				this.state.places
+				this.state.places,
+				' ',
+				React.createElement('br', null),
+				'A Place Name: ',
+				this.state.placeName,
+				' ',
+				React.createElement('br', null),
+				'A Place Foursquare ID: ',
+				this.state.placeFSId,
+				React.createElement('hr', null),
+				React.createElement(Place, { placeName: this.state.placeName, placeIGId: this.state.placeIGId, dateTaken: this.state.dateTaken })
 			);
 		}
 	});
@@ -23655,40 +23671,29 @@
 	module.exports = SearchResults;
 
 /***/ },
-/* 200 */,
-/* 201 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Router = __webpack_require__(157);
-	var SearchResults = __webpack_require__(199);
 
 	var Place = React.createClass({
 		displayName: 'Place',
 
-		mixins: [Router.State],
-		getInitialState: function getInitialState() {
-			return {
-				images: ["img1", "im2", "img3"]
-			};
-		},
 		render: function render() {
-			var placeId = this.getParams().placeId;
 			return React.createElement(
 				'div',
 				null,
+				React.createElement('hr', null),
 				'(This is an individual) PLACE! ',
 				React.createElement('br', null),
-				'Place ID: ',
-				this.props.placeId,
+				'Place Instagram ID: ',
+				this.props.placeIGId,
 				' ',
 				React.createElement('br', null),
-				'Place Images: ',
-				this.state.images,
-				' ',
-				React.createElement('br', null)
+				'Place Name: ',
+				this.props.placeName
 			);
 		}
 	});
