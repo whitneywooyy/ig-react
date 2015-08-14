@@ -23630,8 +23630,8 @@
 
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(157);
-	//var RouteHandler = require('react-router').RouteHandler;
 	var Place = __webpack_require__(200);
+	var Variables = __webpack_require__(201);
 
 	var SearchResults = React.createClass({
 		displayName: 'SearchResults',
@@ -23641,10 +23641,19 @@
 			return {
 				username: "whitn_y",
 				placeName: "tour-eiffel",
+				geo: "paris",
 				placeFSId: "1k24h2l3kj42",
 				placeIGId: "87j5kh45",
 				dateTaken: "Aug-21-2015"
 			};
+		},
+		componentDidMount: function componentDidMount() {
+			var geo = this.state.geo;
+			var placeName = this.state.placeName;
+
+			$.get("https://api.foursquare.com/v2/venues/search/?client_id=" + Variables.FoursquareId + "&client_secret=" + Variables.FoursquareSecret + "&limit=10&radius=100000&v=20150424&intent=browse&near=" + geo + "&query=" + placeName, function (res) {
+				console.log('results!', res);
+			});
 		},
 		render: function render() {
 			var placeName = this.getParams().placeName;
@@ -23665,6 +23674,7 @@
 				React.createElement(Place, {
 					username: this.state.username,
 					placeName: this.state.placeName,
+					geo: this.state.geo,
 					placeFSId: this.state.placeFSId,
 					placeIGId: this.state.placeIGId,
 					dateTaken: this.state.dateTaken
@@ -23689,6 +23699,7 @@
 		propTypes: {
 			username: React.PropTypes.string.isRequired,
 			placeName: React.PropTypes.string.isRequired,
+			geo: React.PropTypes.string.isRequired,
 			placeFSId: React.PropTypes.string.isRequired,
 			placeIGId: React.PropTypes.string.isRequired,
 			dateTaken: React.PropTypes.string.isRequired
@@ -23711,6 +23722,21 @@
 	});
 
 	module.exports = Place;
+
+/***/ },
+/* 201 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var variables = {
+		FoursquareId: "GR520RPVXQH4I4TK23KBKAAVLVUN2OYXWZZO2OQXQRLOFHW1",
+		FoursquareSecret: "P2H5JQDD3IPJB4EKE2BKTNJVXPUWDIXTATJNODYHLIQP0MJ4",
+		InstagramId: "45cd821ae328428bb272d8646b95d707",
+		InstagramSecret: "20701507feee46fe87374c8ff4e1b65c"
+	};
+
+	module.exports = variables;
 
 /***/ }
 /******/ ]);

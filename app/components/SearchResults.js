@@ -1,7 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
-//var RouteHandler = require('react-router').RouteHandler;
 var Place = require('./Place');
+var Variables = require('../../variables');
 
 var SearchResults = React.createClass({
 	mixins: [Router.State],
@@ -9,10 +9,20 @@ var SearchResults = React.createClass({
 		return {
 			username: "whitn_y",
 			placeName: "tour-eiffel",
+			geo: "paris",
 			placeFSId: "1k24h2l3kj42",
 			placeIGId: "87j5kh45",
 			dateTaken: "Aug-21-2015"
 		}
+	},
+	componentDidMount: function(){
+		var geo = this.state.geo;
+		var placeName = this.state.placeName;
+
+		$.get("https://api.foursquare.com/v2/venues/search/?client_id=" + Variables.FoursquareId + "&client_secret=" + Variables.FoursquareSecret + "&limit=10&radius=100000&v=20150424&intent=browse&near=" + geo + "&query=" + placeName, function(res){
+				console.log('results!', res);
+			})
+
 	},
 	render: function(){
 		var placeName = this.getParams().placeName;
@@ -25,6 +35,7 @@ var SearchResults = React.createClass({
 				<Place 
 					username={this.state.username}
 					placeName={this.state.placeName} 
+					geo={this.state.geo}
 					placeFSId={this.state.placeFSId}
 					placeIGId={this.state.placeIGId} 
 					dateTaken={this.state.dateTaken} 

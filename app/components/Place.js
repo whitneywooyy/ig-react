@@ -4,6 +4,7 @@ var Place = React.createClass({
 	propTypes: {
 		username: React.PropTypes.string.isRequired,
 		placeName: React.PropTypes.string.isRequired,
+		geo: React.PropTypes.string.isRequired,
 		placeFSId: React.PropTypes.string.isRequired,
 		placeIGId: React.PropTypes.string.isRequired,
 		dateTaken: React.PropTypes.string.isRequired
