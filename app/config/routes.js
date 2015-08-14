@@ -10,7 +10,7 @@ var Route = Router.Route;
 module.exports = (
 	<Route name="app" path="/" handler={Main}>
 		<Route name="results" path="/results/:placeName+:geo" handler={SearchResults} />
-		
+		<Route name="place" path="/places/:placeId" handler={Place} />
 		<DefaultRoute handler={Home} />
 	</Route>
 );

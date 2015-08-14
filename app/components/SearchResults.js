@@ -10,12 +10,8 @@ var SearchResults = React.createClass({
 	getInitialState: function(){
 		return {
 			searchResults: [],
-			username: "",
 			placeName: "",
-			geo: "",
-			placeFSId: "",
-			placeIGId: "",
-			dateTaken: ""
+			geo: ""
 		}
 	},
 	init: function(){
@@ -36,15 +32,6 @@ var SearchResults = React.createClass({
 		return (
 			<div className="row">
 				<ResultsList searchResults={this.state.searchResults} />
-				<hr />
-				<Place 
-					username={this.state.username}
-					placeName={this.state.placeName} 
-					geo={this.state.geo}
-					placeFSId={this.state.placeFSId}
-					placeIGId={this.state.placeIGId} 
-					dateTaken={this.state.dateTaken} 
-				/>
 			</div>
 		)
 	}

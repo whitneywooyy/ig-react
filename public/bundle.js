@@ -23559,6 +23559,7 @@
 		Route,
 		{ name: 'app', path: '/', handler: Main },
 		React.createElement(Route, { name: 'results', path: '/results/:placeName+:geo', handler: SearchResults }),
+		React.createElement(Route, { name: 'place', path: '/places/:placeId', handler: Place }),
 		React.createElement(DefaultRoute, { handler: Home })
 	);
 
@@ -23692,12 +23693,8 @@
 		getInitialState: function getInitialState() {
 			return {
 				searchResults: [],
-				username: "",
 				placeName: "",
-				geo: "",
-				placeFSId: "",
-				placeIGId: "",
-				dateTaken: ""
+				geo: ""
 			};
 		},
 		init: function init() {
@@ -23718,16 +23715,7 @@
 			return React.createElement(
 				'div',
 				{ className: 'row' },
-				React.createElement(ResultsList, { searchResults: this.state.searchResults }),
-				React.createElement('hr', null),
-				React.createElement(Place, {
-					username: this.state.username,
-					placeName: this.state.placeName,
-					geo: this.state.geo,
-					placeFSId: this.state.placeFSId,
-					placeIGId: this.state.placeIGId,
-					dateTaken: this.state.dateTaken
-				})
+				React.createElement(ResultsList, { searchResults: this.state.searchResults })
 			);
 		}
 	});
@@ -23741,10 +23729,22 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Router = __webpack_require__(157);
+	var Place = __webpack_require__(202);
+
+	// var selectVenue = function(id){
+	// 	console.log('id', id);
+	// }
 
 	var ResultsList = React.createClass({
 		displayName: 'ResultsList',
 
+		propTypes: {
+			searchResults: React.PropTypes.array.isRequired
+		},
+		// selectVenue: function(id){
+		// 	console.log('212121id', id);
+		// },
 		render: function render() {
 			return React.createElement(
 				'div',
@@ -23759,7 +23759,7 @@
 							{ className: 'list-group-item', key: index },
 							item.id && React.createElement(
 								'a',
-								{ href: item.url },
+								{ href: "#/places/" + item.id },
 								item.name
 							)
 						);
@@ -23771,6 +23771,9 @@
 
 	module.exports = ResultsList;
 
+	// onClick={selectVenue(item.id)}
+	// <Place searchResults={this.props.searchResults} />
+
 /***/ },
 /* 202 */
 /***/ function(module, exports, __webpack_require__) {
@@ -23778,18 +23781,19 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Router = __webpack_require__(157);
 
 	var Place = React.createClass({
 		displayName: 'Place',
 
-		propTypes: {
-			username: React.PropTypes.string.isRequired,
-			placeName: React.PropTypes.string.isRequired,
-			geo: React.PropTypes.string.isRequired,
-			placeFSId: React.PropTypes.string.isRequired,
-			placeIGId: React.PropTypes.string.isRequired,
-			dateTaken: React.PropTypes.string.isRequired
-		},
+		// propTypes: {
+		// 	// username: React.PropTypes.string.isRequired,
+		// 	placeName: React.PropTypes.string.isRequired,
+		// 	// geo: React.PropTypes.string.isRequired,
+		// 	placeFSId: React.PropTypes.string.isRequired,
+		// 	// placeIGId: React.PropTypes.string.isRequired,
+		// 	// dateTaken: React.PropTypes.string.isRequired
+		// },
 		render: function render() {
 			return React.createElement(
 				'div',
