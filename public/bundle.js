@@ -23558,7 +23558,7 @@
 	module.exports = React.createElement(
 		Route,
 		{ name: 'app', path: '/', handler: Main },
-		React.createElement(Route, { name: 'results', path: '/results/:placeName', handler: SearchResults }),
+		React.createElement(Route, { name: 'results', path: '/results/:placeName+:geo', handler: SearchResults }),
 		React.createElement(DefaultRoute, { handler: Home })
 	);
 
@@ -23572,6 +23572,7 @@
 
 	var React = __webpack_require__(1);
 	var RouteHandler = __webpack_require__(157).RouteHandler;
+	var SearchFor = __webpack_require__(203);
 
 	var Main = React.createClass({
 		displayName: 'Main',
@@ -23586,7 +23587,7 @@
 					React.createElement(
 						'div',
 						{ className: 'col-sm-7 col-sm-offset-2', style: { marginTop: 15 } },
-						'MENU'
+						React.createElement(SearchFor, null)
 					)
 				),
 				React.createElement(
@@ -23630,6 +23631,7 @@
 
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(157);
+	var ResultsList = __webpack_require__(202);
 	var Place = __webpack_require__(200);
 	var Variables = __webpack_require__(201);
 
@@ -23639,24 +23641,34 @@
 		mixins: [Router.State],
 		getInitialState: function getInitialState() {
 			return {
+				searchResults: [],
 				username: "whitn_y",
 				placeName: "tour-eiffel",
 				geo: "paris",
-				placeFSId: "1k24h2l3kj42",
-				placeIGId: "87j5kh45",
+				placeFSId: "blank",
+				placeIGId: "blanker",
 				dateTaken: "Aug-21-2015"
 			};
 		},
 		componentDidMount: function componentDidMount() {
 			var geo = this.state.geo;
 			var placeName = this.state.placeName;
+			var searchResults = this.state.searchResults;
 
-			$.get("https://api.foursquare.com/v2/venues/search/?client_id=" + Variables.FoursquareId + "&client_secret=" + Variables.FoursquareSecret + "&limit=10&radius=100000&v=20150424&intent=browse&near=" + geo + "&query=" + placeName, function (res) {
-				console.log('results!', res);
-			});
+			$.get("https://api.foursquare.com/v2/venues/search/?client_id=" + Variables.FoursquareId + "&client_secret=" + Variables.FoursquareSecret + "&limit=10&radius=100000&v=20150424&intent=browse&near=" + geo + "&query=" + placeName, (function (res) {
+				var returned = res.response.venues;
+				console.log('returned', returned);
+				for (var i = 0; i < returned.length; i++) {
+					searchResults.push(returned[i]);
+				}
+				//this.forceUpdate(); // Causes error: "Warning: Any use of a keyed object should be wrapped in React.addons.createFragment(object) before being passed as a child."
+				this.setState(searchResults); // Causes error: "Warning: Any use of a keyed object should be wrapped in React.addons.createFragment(object) before being passed as a child."
+				console.log("YEST", this.state.searchResults);
+			}).bind(this));
 		},
 		render: function render() {
 			var placeName = this.getParams().placeName;
+			// var resList = this.componentDidMount.resList;
 			return React.createElement(
 				'div',
 				{ className: 'row' },
@@ -23670,6 +23682,10 @@
 				React.createElement('br', null),
 				'A Place Foursquare ID: ',
 				this.state.placeFSId,
+				' ',
+				React.createElement('br', null),
+				React.createElement('hr', null),
+				React.createElement(ResultsList, { searchResults: this.state.searchResults }),
 				React.createElement('hr', null),
 				React.createElement(Place, {
 					username: this.state.username,
@@ -23737,6 +23753,96 @@
 	};
 
 	module.exports = variables;
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var ResultsList = React.createClass({
+		displayName: 'ResultsList',
+
+		// propTypes: {
+		// 	username: React.PropTypes.string.isRequired,
+		// 	placeName: React.PropTypes.string.isRequired,
+		// 	geo: React.PropTypes.string.isRequired,
+		// 	placeFSId: React.PropTypes.string.isRequired,
+		// 	placeIGId: React.PropTypes.string.isRequired,
+		// 	dateTaken: React.PropTypes.string.isRequired
+		// },
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement('hr', null),
+				'This is the List of Results from a User\'s Search! ',
+				React.createElement('br', null),
+				React.createElement(
+					'strong',
+					null,
+					'ResultsList:'
+				),
+				' ',
+				this.props.searchResults,
+				' ',
+				React.createElement('br', null)
+			);
+		}
+	});
+
+	module.exports = ResultsList;
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(157);
+
+	var SearchFor = React.createClass({
+		displayName: 'SearchFor',
+
+		mixins: [Router.Navigation],
+		handleSubmit: function handleSubmit() {
+			var placeName = this.refs.placeName.getDOMNode().value;
+			var geo = this.refs.geo.getDOMNode().value;
+			this.refs.placeName.getDOMNode().value = '';
+			this.refs.geo.getDOMNode().value = '';
+			this.transitionTo('results', { placeName: placeName, geo: geo });
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'col-sm-12' },
+				React.createElement(
+					'form',
+					{ onSubmit: this.handleSubmit },
+					React.createElement(
+						'div',
+						{ className: 'form-group col-sm-7' },
+						React.createElement('input', { type: 'text', className: 'form-control', ref: 'placeName' }),
+						React.createElement('input', { type: 'text', className: 'form-control', ref: 'geo' })
+					),
+					React.createElement(
+						'div',
+						{ className: 'form-group col-sm-5' },
+						React.createElement(
+							'button',
+							{ type: 'submit', className: 'btn btn-block btn-primary' },
+							'Search Places'
+						)
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = SearchFor;
 
 /***/ }
 /******/ ]);
