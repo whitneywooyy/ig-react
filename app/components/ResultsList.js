@@ -1,20 +1,17 @@
 var React = require('react');
 
 var ResultsList = React.createClass({
-	// propTypes: {
-	// 	username: React.PropTypes.string.isRequired,
-	// 	placeName: React.PropTypes.string.isRequired,
-	// 	geo: React.PropTypes.string.isRequired,
-	// 	placeFSId: React.PropTypes.string.isRequired,
-	// 	placeIGId: React.PropTypes.string.isRequired,
-	// 	dateTaken: React.PropTypes.string.isRequired
-	// },
 	render: function(){
-		return (
-			<div><hr />This is the List of Results from a User's Search! <br />
-			<strong>ResultsList:</strong> {this.props.searchResults} <br />
-			</div>
-		)
+		return (<div>
+			<ul>
+				{ this.props.searchResults.map(function(item, index){
+					console.log('item', item);
+					return <li className="list-group-item" key={index}>
+					{item.id && <a href={item.url}>{item.name}</a>}
+					</li>
+				}) }
+			</ul>
+		</div>);
 	}
 });
 

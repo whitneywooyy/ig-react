@@ -15,4 +15,4 @@ module.exports = (
 	</Route>
 );
 
-// Line 13: <Route name="place" path="/results/:placeId" handler={Place} />
+// Line 13: <Route name="place" path="/places/:placeId" handler={Place} />
