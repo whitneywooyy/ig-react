@@ -10,6 +10,7 @@ var Place = React.createClass({
 	// 	// placeIGId: React.PropTypes.string.isRequired,
 	// 	// dateTaken: React.PropTypes.string.isRequired
 	// },
+	
 	render: function(){
 		return (
 			<div><hr />(This is an individual) PLACE! <br />
